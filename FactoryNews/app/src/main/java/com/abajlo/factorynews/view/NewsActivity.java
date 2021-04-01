@@ -19,7 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = "NewsActivity";
     List<Article> lista;
@@ -39,16 +39,34 @@ public class NewsActivity extends AppCompatActivity {
         fragmentAdapter = new ViewFragmentAdapter(getSupportFragmentManager(), lista);
         viewPager.setAdapter(fragmentAdapter);
         viewPager.setCurrentItem(position);
+        viewPager.setOnPageChangeListener(this);
+
     }
 
-    private void getIncomingIntent(){
+    private void getIncomingIntent() {
         Log.d(TAG, "Checking for incoming intents...");
 
         Intent i = getIntent();
         lista = (List<Article>) i.getSerializableExtra("LIST");
         position = i.getIntExtra("position", 0);
-        }
+        setTitle(lista.get(position).getTitle());
 
     }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setTitle(lista.get(position).getTitle());
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+}
 
 

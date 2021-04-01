@@ -36,6 +36,7 @@ public class ViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_news,container, false);
+
         title = view.findViewById(R.id.articleTitle);
         title.setText(article.getTitle());
 
@@ -47,6 +48,9 @@ public class ViewFragment extends Fragment {
                 .asBitmap()
                 .load(article.getUrlToImage())
                 .into(image);
+
+
+
 
 
         return view;
