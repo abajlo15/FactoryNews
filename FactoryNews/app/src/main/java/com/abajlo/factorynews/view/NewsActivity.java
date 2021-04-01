@@ -25,18 +25,20 @@ public class NewsActivity extends AppCompatActivity {
     List<Article> lista;
     private ViewPager viewPager;
     private ViewFragmentAdapter fragmentAdapter;
+    private int position;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_news);
+        setContentView(R.layout.view_pager);
         Log.d(TAG, "onCreate: Started");
         getIncomingIntent();
 
         viewPager = findViewById(R.id.view_pager);
         fragmentAdapter = new ViewFragmentAdapter(getSupportFragmentManager(), lista);
         viewPager.setAdapter(fragmentAdapter);
+        viewPager.setCurrentItem(position);
     }
 
     private void getIncomingIntent(){
@@ -44,7 +46,7 @@ public class NewsActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         lista = (List<Article>) i.getSerializableExtra("LIST");
-
+        position = i.getIntExtra("position", 0);
         }
 
     }

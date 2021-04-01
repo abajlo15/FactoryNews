@@ -3,13 +3,14 @@ package com.abajlo.factorynews.view;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.abajlo.factorynews.model.Article;
 
 import java.util.List;
 
-public class ViewFragmentAdapter extends FragmentStatePagerAdapter {
+public class ViewFragmentAdapter extends FragmentPagerAdapter {
 
     List<Article> lista;
 

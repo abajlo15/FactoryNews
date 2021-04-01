@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
                         // do whatever
 
                         List<Article> lista = adapter.getArticles();
-                        startActivity(new Intent(MainActivity.this, NewsActivity.class).putExtra("LIST", (Serializable) lista));
+                        Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                        intent.putExtra("LIST", (Serializable) lista);
+                        intent.putExtra("position", position);
+                        startActivity(intent);
+
 
                     }
 
