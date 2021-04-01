@@ -5,9 +5,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,31 +19,65 @@ import com.abajlo.factorynews.presenter.ArticleVievModel;
 import com.abajlo.factorynews.R;
 import com.abajlo.factorynews.presenter.RecyclerItemClickListener;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
+
     private ArticleVievModel articleVievModel;
-    private long FIVE_MINUTES = 5*60*1000;
+    final ArticleAdapter adapter = new ArticleAdapter();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getLoadingData();
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showData();
+
+            }
+        }, 1500);
+
+
+
+
+    }
+
+    private boolean getLoadingData(){
+        final LoadingDialog loadingDialog = new LoadingDialog(MainActivity.this);
+        loadingDialog.startLoadingDialog();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.dismissDialog();
+            }
+        },1500);
+
+
+        return false;
+    }
+
+
+    private void showData(){
+        //populateList();
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final ArticleAdapter adapter = new ArticleAdapter();
-        recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         // do whatever
 
-                       startActivity(new Intent(MainActivity.this, NewsActivity.class).putExtra("Image", adapter.getArticles().get(position).getUrlToImage()).putExtra("Title", adapter.getArticles().get(position).getTitle()). putExtra("Description" , adapter.getArticles().get(position).getDescription()));
+                        List<Article> lista = adapter.getArticles();
+                        startActivity(new Intent(MainActivity.this, NewsActivity.class).putExtra("LIST", (Serializable) lista));
 
                     }
 
@@ -51,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 })
         );
 
-
+        recyclerView.setAdapter(adapter);
         articleVievModel = ViewModelProviders.of(this).get(ArticleVievModel.class);
         articleVievModel.getAllArticles().observe(this, new Observer<List<Article>>() {
             @Override
@@ -63,8 +99,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
+
 
 }
 

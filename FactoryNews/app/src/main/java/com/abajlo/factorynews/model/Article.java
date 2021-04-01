@@ -1,9 +1,13 @@
 package com.abajlo.factorynews.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "publishedAt"
 })
 @Entity(tableName = "bazaArticle")
-public class Article {
+public class Article implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -108,4 +112,9 @@ public class Article {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+
+
+
+
 }

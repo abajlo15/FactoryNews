@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.NewsActivity" />
+        <activity android:name=".utils.Dialogs" android:theme="@android:style/Theme.Material.Dialog.Alert"/>
     </application>
 
 </manifest>
